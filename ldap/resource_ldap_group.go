@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/Ouest-France/goldap"
 	"github.com/go-ldap/ldap/v3"
 	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/stevenlanders/goldap"
 )
 
 func resourceLDAPGroup() *schema.Resource {
@@ -57,7 +57,7 @@ func resourceLDAPGroupCreate(d *schema.ResourceData, m interface{}) error {
 		members = append(members, member.(string))
 	}
 
-	err := client.CreateGroup(dn, d.Get("name").(string), d.Get("description").(string), members)
+	err := client.CreateObject(d.Get("object_class").(string), dn, d.Get("name").(string), d.Get("description").(string), members)
 	if err != nil {
 		return err
 	}
@@ -72,7 +72,7 @@ func resourceLDAPGroupRead(d *schema.ResourceData, m interface{}) error {
 
 	dn := d.Id()
 
-	attributes, err := client.ReadGroup(dn)
+	attributes, err := client.ReadObject(d.Get("object_class").(string), dn)
 	if err != nil {
 		if err.(*ldap.Error).ResultCode == 32 {
 			// Object doesn't exist
@@ -115,7 +115,7 @@ func resourceLDAPGroupUpdate(d *schema.ResourceData, m interface{}) error {
 	client := m.(*goldap.Client)
 	dn := fmt.Sprintf("CN=%s,%s", d.Get("name").(string), d.Get("ou").(string))
 
-	if err := client.UpdateGroup(dn, d.Get("name").(string), d.Get("description").(string)); err != nil {
+	if err := client.UpdateObject(dn, d.Get("name").(string), d.Get("description").(string)); err != nil {
 		return err
 	}
 
@@ -127,7 +127,7 @@ func resourceLDAPGroupDelete(d *schema.ResourceData, m interface{}) error {
 
 	dn := fmt.Sprintf("CN=%s,%s", d.Get("name").(string), d.Get("ou").(string))
 
-	err := client.DeleteGroup(dn)
+	err := client.DeleteObject(dn)
 
 	return err
 }

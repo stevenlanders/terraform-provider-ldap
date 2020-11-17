@@ -28,22 +28,28 @@ func Provider() *schema.Provider {
 				Required:    true,
 				Description: "LDAP password",
 			},
-			"tls": &schema.Schema{
+			"tls": {
 				Type:        schema.TypeBool,
 				Optional:    true,
 				Default:     false,
 				Description: "Enable the TLS encryption for LDAP (LDAPS). Default, is `false`.",
 			},
-			"tls_ca_certificate": &schema.Schema{
+			"tls_ca_certificate": {
 				Type:        schema.TypeString,
 				Optional:    true,
 				Description: "The TLS CA certificate to trust for the LDAPS connection.",
 			},
-			"tls_insecure": &schema.Schema{
+			"tls_insecure": {
 				Type:        schema.TypeBool,
 				Optional:    true,
 				Default:     false,
 				Description: "Don't verify the server TLS certificate. Default is `false`.",
+			},
+			"object_class": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				Default:     "group",
+				Description: "Object class type for group",
 			},
 		},
 		ResourcesMap: map[string]*schema.Resource{
