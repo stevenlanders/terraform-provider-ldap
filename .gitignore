@@ -2,6 +2,7 @@
 
 terraform-provider-ldap*
 bin
+.idea 
 
 # Local .terraform directories
 **/.terraform/*

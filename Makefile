@@ -1,2 +1,2 @@
 build:
-	go build -o terraform-provider-ldap_v0.0.1
+	go build -o terraform-provider-ldap_v0.0.2

@@ -1,8 +1,8 @@
 package ldap
 
 import (
-	"github.com/Ouest-France/goldap"
 	"github.com/hashicorp/terraform/helper/schema"
+	"github.com/stevenlanders/goldap"
 )
 
 func Provider() *schema.Provider {
